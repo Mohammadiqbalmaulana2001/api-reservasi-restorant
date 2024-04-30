@@ -22,10 +22,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-12ov6$#(hpd_z=7w*oc7lg85#i499d2o@coun@%7&s6qv0*zyk'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# Fungsi dari opsi debug dalam pengaturan Django (DEBUG = True/False) adalah mengontrol mode debug aplikasi. Saat mode debug aktif (DEBUG = True), Django akan memberikan informasi rinci tentang kesalahan yang terjadi, termasuk traceback lengkap, sehingga memudahkan untuk menemukan dan memperbaiki masalah selama pengembangan aplikasi.
+# PERINGATAN KEAMANAN: jangan jalankan dengan debug diaktifkan dalam produksi!
+DEBUG = False
 
-ALLOWED_HOSTS = []
+# Jika mode debug (DEBUG = True) aktif dalam lingkungan produksi, ini dapat membuka aplikasi Anda terhadap serangan keamanan dan mengungkapkan informasi sensitif kepada penyerang. 
+
+# ALLOWED_HOSTS adalah daftar string yang menentukan host yang diizinkan untuk menerima permintaan. seperti nama domain, ip address, host name, dan subdomain.
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -39,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'api',
     'rest_framework',
+    'drf_api_logger',
 ]
 
 MIDDLEWARE = [
@@ -46,9 +51,13 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'api.midleware.ServerErrorMiddleware',
+    'api.midleware.NotFoundMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'drf_api_logger.middleware.api_logger_middleware.APILoggerMiddleware',
 ]
 
 ROOT_URLCONF = 'restaurant_reservasi.urls'
@@ -127,3 +136,5 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+DRF_API_LOGGER_DATABASE = True
