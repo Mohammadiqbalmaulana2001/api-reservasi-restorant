@@ -1,6 +1,5 @@
-from django.urls import path
-from . import views
+from django.urls import path,include
 
 urlpatterns = [
-  path('restorant/', views.RestorantCreate.as_view(), name='restorant-create')
+  path('restorant/', include('api.routes.restorant_route')),
 ]
