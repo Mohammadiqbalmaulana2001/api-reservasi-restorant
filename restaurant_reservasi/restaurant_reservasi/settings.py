@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-12ov6$#(hpd_z=7w*oc7lg85#i499d2o@coun@%7&s6qv0*zyk
 
 # Fungsi dari opsi debug dalam pengaturan Django (DEBUG = True/False) adalah mengontrol mode debug aplikasi. Saat mode debug aktif (DEBUG = True), Django akan memberikan informasi rinci tentang kesalahan yang terjadi, termasuk traceback lengkap, sehingga memudahkan untuk menemukan dan memperbaiki masalah selama pengembangan aplikasi.
 # PERINGATAN KEAMANAN: jangan jalankan dengan debug diaktifkan dalam produksi!
-DEBUG = False
+DEBUG = True
 
 # Jika mode debug (DEBUG = True) aktif dalam lingkungan produksi, ini dapat membuka aplikasi Anda terhadap serangan keamanan dan mengungkapkan informasi sensitif kepada penyerang. 
 
@@ -51,8 +51,8 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'api.midleware.ServerErrorMiddleware',
-    'api.midleware.NotFoundMiddleware',
+    # 'api.midleware.ServerErrorMiddleware',
+    # 'api.midleware.NotFoundMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',

@@ -5,14 +5,14 @@ class ServerErrorMiddleware:
     self.get_response = get_response
   
   def __call__(self, request):
-    try:
-      return self.get_response(request)
-    except Exception as e:
+    response = self.get_response(request)
+    if response.status_code == 500:
       return JsonResponse({
           "success": False,
-          "message": "Terjadi kesalahan pada server",
-          "errors": str(e)
+          "message": "periksa kembali code anda",
+          "errors": "Terjadi kesalahan pada server"
       }, status=500)
+    return response
     
 class NotFoundMiddleware:
     def __init__(self, get_response):
