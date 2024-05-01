@@ -18,6 +18,7 @@ class Meja(models.Model):
     no_meja = models.IntegerField()
     kapasitas = models.IntegerField(blank=True, null=True)
     tersewa = models.BooleanField(default=False)
+    qr_code = models.ImageField(upload_to='qr_codes/', blank=True, null=True)
 
     def __str__(self):
         return f"Meja di restoran {self.restorant} degan nomor meja {self.no_meja}"
