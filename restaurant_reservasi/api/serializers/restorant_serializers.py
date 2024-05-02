@@ -2,8 +2,9 @@ from rest_framework import serializers
 from api.models import Restorant
 from api.serializers.meja_serializer import MejaSerializer
 
-class RestorantSerializer(serializers.ModelSerializer):
+class RestorantSerializer(serializers.HyperlinkedModelSerializer):
   daftar_meja = MejaSerializer(many=True , read_only=True)
+  daftar_menu = serializers.HyperlinkedIdentityField(many=True, read_only=True, view_name='menu-detail')
   class Meta:
     model = Restorant
-    fields = ['id', 'nama', 'alamat', 'no_telp', 'waktu_buka', 'waktu_tutup' , 'daftar_meja']
+    fields = ['id', 'nama', 'alamat', 'no_telp', 'waktu_buka', 'waktu_tutup' , 'daftar_meja', 'daftar_menu']

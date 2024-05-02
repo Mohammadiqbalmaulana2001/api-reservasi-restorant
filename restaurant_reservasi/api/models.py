@@ -40,6 +40,7 @@ class PenggunaKhusus(AbstractUser):
         return self.username
 
 class Reservasi(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     pengguna = models.ForeignKey(PenggunaKhusus, on_delete=models.CASCADE)
     restorant = models.ForeignKey(Restorant, on_delete=models.CASCADE)
     meja = models.ForeignKey(Meja, on_delete=models.CASCADE)
@@ -52,21 +53,24 @@ class Reservasi(models.Model):
         ('Dibatalkan', 'Dibatalkan'),
         ('Selesai', 'Selesai'),
     ])
+    qr_code = models.ImageField(upload_to='qr_codes/', blank=True, null=True)
 
     def __str__(self):
         return f"Reservasi untuk {self.pengguna} di {self.restoran} pada {self.tanggal_reservasi}"
 
 class Ulasan(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     pengguna = models.ForeignKey(PenggunaKhusus, on_delete=models.CASCADE)
     restorant = models.ForeignKey(Restorant, on_delete=models.CASCADE)
     rating = models.IntegerField(blank=True, null=True)
-    komentar = models.TextField(blank=True)
+    komentar = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return f"Ulasan untuk {self.pengguna} di {self.restoran}"
 
 class Menu(models.Model):
-    restorant = models.ForeignKey(Restorant, on_delete=models.CASCADE)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    restorant = models.ForeignKey(Restorant, on_delete=models.CASCADE , related_name='daftar_menu')
     menu = models.CharField(max_length=100)
     deskripsi = models.TextField(blank=True)
     harga = models.DecimalField(max_digits=10, decimal_places=2, validators=[MaxValueValidator(100000000)])
