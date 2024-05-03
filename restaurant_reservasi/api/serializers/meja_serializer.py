@@ -9,9 +9,10 @@ import os
 
 class MejaSerializer(serializers.ModelSerializer):
     qr_code = serializers.SerializerMethodField()
+    reservasi = serializers.HyperlinkedIdentityField(many=True, read_only=True, view_name='detail-reservasi')
     class Meta:
         model = Meja
-        fields = ['id', 'restorant', 'no_meja', 'kapasitas', 'tersewa', 'qr_code']
+        fields = ['id', 'restorant', 'no_meja', 'kapasitas', 'tersewa', 'qr_code', 'reservasi']
 
     def get_qr_code(self, obj):
         data = f"Restoran: {obj.restorant}, Nomor Meja: {obj.no_meja}, Kapasitas: {obj.kapasitas}"

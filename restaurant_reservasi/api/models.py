@@ -42,9 +42,9 @@ class PenggunaKhusus(AbstractUser):
 
 class Reservasi(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    pengguna = models.ForeignKey(PenggunaKhusus, on_delete=models.CASCADE)
-    restorant = models.ForeignKey(Restorant, on_delete=models.CASCADE)
-    meja = models.ForeignKey(Meja, on_delete=models.CASCADE)
+    pengguna = models.ForeignKey(PenggunaKhusus, on_delete=models.CASCADE,related_name='reservasi')
+    restorant = models.ForeignKey(Restorant, on_delete=models.CASCADE , related_name='reservasi')
+    meja = models.ForeignKey(Meja, on_delete=models.CASCADE,related_name='reservasi')
     tanggal_reservasi = models.DateField()
     waktu_reservasi = models.TimeField()
     jumlah_orang = models.IntegerField(blank=True, null=True)
