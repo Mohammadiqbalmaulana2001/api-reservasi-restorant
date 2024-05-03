@@ -7,4 +7,5 @@ urlpatterns = [
   path('menu/', include('api.routes.menu_route')),
   path('pengguna/', include('api.routes.pengguna_route')),
   path('reservasi/', include('api.routes.reservasi_route')),
+  path('ulasan/', include('api.routes.ulasan_route')),
 ]

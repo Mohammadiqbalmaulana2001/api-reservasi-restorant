@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.core.validators import MaxLengthValidator, MaxValueValidator  
 import uuid
 
@@ -61,9 +62,9 @@ class Reservasi(models.Model):
 
 class Ulasan(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    pengguna = models.ForeignKey(PenggunaKhusus, on_delete=models.CASCADE, blank=True, null=True)
-    restorant = models.ForeignKey(Restorant, on_delete=models.CASCADE)
-    rating = models.IntegerField(blank=True, null=True)
+    pengguna = models.ForeignKey(PenggunaKhusus, on_delete=models.CASCADE, blank=True, null=True,related_name='ulasan')
+    restorant = models.ForeignKey(Restorant, on_delete=models.CASCADE,related_name='ulasan')
+    rating = models.IntegerField(blank=True, null=True, validators=[MinValueValidator(1), MaxValueValidator(6)],)
     komentar = models.TextField(blank=True, null=True)
 
     def __str__(self):
