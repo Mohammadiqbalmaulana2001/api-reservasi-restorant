@@ -9,9 +9,10 @@ import os
 
 class ReservasiSerializer(serializers.ModelSerializer):
   qr_code = serializers.SerializerMethodField()
+  transaksi = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='detail-transaksi-pembayaran')
   class Meta:
     model = Reservasi
-    fields = ['id', 'pengguna', 'restorant','meja', 'tanggal_reservasi', 'waktu_reservasi','jumlah_orang', 'status', 'qr_code']
+    fields = ['id', 'pengguna', 'restorant','meja', 'tanggal_reservasi', 'waktu_reservasi','jumlah_orang', 'status', 'qr_code', 'transaksi']
 
   def get_qr_code(self, obj):
       data = f"Pengguna: {obj.pengguna}, Restoran: {obj.restorant},meja: {obj.meja}, Tanggal: {obj.tanggal_reservasi}, Waktu: {obj.waktu_reservasi}, Jumlah Orang: {obj.jumlah_orang}, Status: {obj.status}"
