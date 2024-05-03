@@ -24,6 +24,7 @@ class Meja(models.Model):
         return f"Meja di restoran {self.restorant} degan nomor meja {self.no_meja}"
 
 class PenggunaKhusus(AbstractUser):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     nomor_telepon = models.CharField(max_length=12, validators=[MaxLengthValidator(12)])
     alamat = models.TextField()
 
@@ -60,7 +61,7 @@ class Reservasi(models.Model):
 
 class Ulasan(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    pengguna = models.ForeignKey(PenggunaKhusus, on_delete=models.CASCADE)
+    pengguna = models.ForeignKey(PenggunaKhusus, on_delete=models.CASCADE, blank=True, null=True)
     restorant = models.ForeignKey(Restorant, on_delete=models.CASCADE)
     rating = models.IntegerField(blank=True, null=True)
     komentar = models.TextField(blank=True, null=True)
