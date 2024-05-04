@@ -1,4 +1,5 @@
 from django.urls import path,include
+from rest_framework.urlpatterns import format_suffix_patterns
 
 
 urlpatterns = [
@@ -10,3 +11,4 @@ urlpatterns = [
   path('ulasan/', include('api.routes.ulasan_route')),
   path('transaksi-pembayaran/', include('api.routes.transaksi_pembayaran_route')),
 ]
+urlpatterns = format_suffix_patterns(urlpatterns, allowed=['json', 'api'])
