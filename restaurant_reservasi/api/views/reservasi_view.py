@@ -2,6 +2,7 @@ from rest_framework import generics
 from rest_framework import mixins
 from api.models import Reservasi
 from api.serializers.reservasi_serializer import ReservasiSerializer
+from django_filters.rest_framework import DjangoFilterBackend
 
 class ReservasiList(mixins.ListModelMixin,
         mixins.CreateModelMixin,
@@ -9,6 +10,11 @@ class ReservasiList(mixins.ListModelMixin,
 
   queryset = Reservasi.objects.all()
   serializer_class = ReservasiSerializer
+  filter_backends = [DjangoFilterBackend]
+  filterset_fields = ['restorant', 'pengguna', 'meja', 'status']
+
+  def get_queryset(self):
+    return Reservasi.objects.all()
 
   def get(self, request, *args, **kwargs):
     return self.list(request, *args, **kwargs)

@@ -2,6 +2,8 @@ from rest_framework import mixins
 from rest_framework import generics
 from api.models import TransaksiPembayaran
 from api.serializers.transaksi_pembayaran_serializer import TransaksiPembayaranSerializer
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter
 
 class TransaksiPembayaranList(mixins.ListModelMixin,
         mixins.CreateModelMixin,
@@ -9,6 +11,13 @@ class TransaksiPembayaranList(mixins.ListModelMixin,
 
   queryset = TransaksiPembayaran.objects.all()
   serializer_class = TransaksiPembayaranSerializer
+
+  filter_backends = [DjangoFilterBackend, SearchFilter]
+  filterset_fields = ['reservasi', 'metode_pembayaran', 'berhasil']
+  search_fields = ['metode_pembayaran', 'berhasil','tanggal_bayar','nominal']
+
+  def get_queryset(self):
+    return TransaksiPembayaran.objects.all()
 
   def get(self, request, *args, **kwargs):
     return self.list(request, *args, **kwargs)

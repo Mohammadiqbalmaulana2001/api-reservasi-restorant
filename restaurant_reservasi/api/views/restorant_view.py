@@ -5,11 +5,14 @@ from rest_framework import generics
 from api.models import Restorant
 from rest_framework.exceptions import NotFound
 from api.serializers.restorant_serializers import RestorantSerializer
+from rest_framework.filters import SearchFilter
 
 class RestorantList(generics.ListCreateAPIView):
   queryset = Restorant.objects.all()
   serializer_class = RestorantSerializer
   
+  filter_backends = [SearchFilter]
+  search_fields = ['nama', 'alamat', 'no_telp', 'waktu_buka', 'waktu_tutup']
 
 class RestorantDetail(APIView):
   def get_object(self, pk):

@@ -4,6 +4,8 @@ from rest_framework import generics
 from rest_framework import mixins
 from api.models import Menu
 from api.serializers.menu_serializer import MenuSerializer
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter
 
 class MenuList(mixins.ListModelMixin,
         mixins.CreateModelMixin,
@@ -11,6 +13,12 @@ class MenuList(mixins.ListModelMixin,
 
   queryset = Menu.objects.all()
   serializer_class = MenuSerializer
+  filter_backends = [DjangoFilterBackend, SearchFilter]
+  filterset_fields = ['restorant']
+  search_fields = ['menu', 'deskripsi', 'harga']
+
+  def get_queryset(self):
+    return Menu.objects.all()
 
   def get(self, request, *args, **kwargs):
     return self.list(request, *args, **kwargs)

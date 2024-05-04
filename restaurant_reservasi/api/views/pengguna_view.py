@@ -4,10 +4,18 @@ from rest_framework import status
 from rest_framework.response import Response
 from api.models import PenggunaKhusus
 from api.serializers.pengguna_serializer import PenggunaSerializer
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter
 
 class PenggunaList(mixins.ListModelMixin, generics.GenericAPIView):
   queryset = PenggunaKhusus.objects.all()
   serializer_class = PenggunaSerializer
+  filter_backends = [DjangoFilterBackend, SearchFilter]
+  filterset_fields = ['username', 'nomor_telepon', 'alamat']
+  search_fields = ['username', 'nomor_telepon', 'alamat']
+
+  def get_queryset(self):
+    return PenggunaKhusus.objects.all()
 
   def get(self, request, *args, **kwargs):
     return self.list(request, *args, **kwargs)

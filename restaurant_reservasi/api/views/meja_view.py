@@ -2,6 +2,7 @@ from rest_framework import generics
 from api.serializers.meja_serializer import MejaSerializer
 from rest_framework import mixins
 from api.models import Meja
+from django_filters.rest_framework import DjangoFilterBackend
 
 class MejaList(mixins.ListModelMixin,
               mixins.CreateModelMixin,
@@ -9,6 +10,12 @@ class MejaList(mixins.ListModelMixin,
 
     queryset = Meja.objects.all()
     serializer_class = MejaSerializer
+
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['tersewa']
+
+    def get_queryset(self):
+        return Meja.objects.all()
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
