@@ -6,15 +6,18 @@ from api.models import Restorant
 from rest_framework.exceptions import NotFound
 from api.serializers.restorant_serializers import RestorantSerializer
 from rest_framework.filters import SearchFilter
+from rest_framework import permissions
 
 class RestorantList(generics.ListCreateAPIView):
   queryset = Restorant.objects.all()
   serializer_class = RestorantSerializer
+  permission_classes = [permissions.IsAuthenticated]
   
   filter_backends = [SearchFilter]
   search_fields = ['nama', 'alamat', 'no_telp', 'waktu_buka', 'waktu_tutup']
 
 class RestorantDetail(APIView):
+  permission_classes = [permissions.IsAuthenticated]
   def get_object(self, pk):
     try:
       return Restorant.objects.get(pk=pk)

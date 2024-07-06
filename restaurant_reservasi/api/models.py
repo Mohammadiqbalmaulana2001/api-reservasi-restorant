@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.core.validators import MaxLengthValidator, MaxValueValidator  
 import uuid
@@ -24,26 +24,9 @@ class Meja(models.Model):
     def __str__(self):
         return f"Meja di restoran {self.restorant} degan nomor meja {self.no_meja}"
 
-class PenggunaKhusus(AbstractUser):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    nomor_telepon = models.CharField(max_length=12, validators=[MaxLengthValidator(12)])
-    alamat = models.TextField()
-
-    groups = models.ManyToManyField(
-        'auth.Group',
-        related_name='pengguna_khusus_set', 
-    )
-    user_permissions = models.ManyToManyField(
-        'auth.Permission',
-        related_name='pengguna_khusus_set', 
-    )
-
-    def __str__(self):
-        return self.username
-
 class Reservasi(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    pengguna = models.ForeignKey(PenggunaKhusus, on_delete=models.CASCADE,related_name='reservasi')
+    pengguna = models.ForeignKey(User, on_delete=models.CASCADE,related_name='reservasi')
     restorant = models.ForeignKey(Restorant, on_delete=models.CASCADE , related_name='reservasi')
     meja = models.ForeignKey(Meja, on_delete=models.CASCADE,related_name='reservasi')
     tanggal_reservasi = models.DateField()
@@ -62,7 +45,7 @@ class Reservasi(models.Model):
 
 class Ulasan(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    pengguna = models.ForeignKey(PenggunaKhusus, on_delete=models.CASCADE, blank=True, null=True,related_name='ulasan')
+    pengguna = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True,related_name='ulasan')
     restorant = models.ForeignKey(Restorant, on_delete=models.CASCADE,related_name='ulasan')
     rating = models.IntegerField(blank=True, null=True, validators=[MinValueValidator(1), MaxValueValidator(6)],)
     komentar = models.TextField(blank=True, null=True)
