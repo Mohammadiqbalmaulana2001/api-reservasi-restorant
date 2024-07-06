@@ -11,7 +11,7 @@ from rest_framework import permissions
 class RestorantList(generics.ListCreateAPIView):
   queryset = Restorant.objects.all()
   serializer_class = RestorantSerializer
-  permission_classes = [permissions.IsAuthenticated]
+  # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
   
   filter_backends = [SearchFilter]
   search_fields = ['nama', 'alamat', 'no_telp', 'waktu_buka', 'waktu_tutup']
@@ -27,7 +27,7 @@ class RestorantDetail(APIView):
   def get(self, request, pk, format =None):
     restorant = self.get_object(pk)
     if restorant :
-      serializer = RestorantSerializer(restorant)
+      serializer = RestorantSerializer(restorant, context={'request': request})
       return Response({
         "success": True,
         "message": "Restorant ditemukan",
@@ -41,7 +41,7 @@ class RestorantDetail(APIView):
   
   def put(self, request, pk, format =None):
     restorant = self.get_object(pk)
-    serializer = RestorantSerializer(restorant, data=request.data)
+    serializer = RestorantSerializer(restorant, data=request.data,context={'request': request})
     if serializer.is_valid():
       serializer.save()
       return Response({

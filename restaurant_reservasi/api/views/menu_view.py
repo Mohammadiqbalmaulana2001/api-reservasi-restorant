@@ -1,6 +1,6 @@
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework import generics
+from rest_framework import generics , permissions
 from rest_framework import mixins
 from api.models import Menu
 from api.serializers.menu_serializer import MenuSerializer
@@ -14,6 +14,7 @@ class MenuList(mixins.ListModelMixin,
   queryset = Menu.objects.all()
   serializer_class = MenuSerializer
   filter_backends = [DjangoFilterBackend, SearchFilter]
+  permission_classes = [permissions.IsAuthenticatedOrReadOnly]
   filterset_fields = ['restorant']
   search_fields = ['menu', 'deskripsi', 'harga']
 
@@ -33,6 +34,7 @@ class MenuDetail(mixins.RetrieveModelMixin,
 
   queryset = Menu.objects.all()
   serializer_class = MenuSerializer
+  permission_classes = [permissions.IsAuthenticated]
 
   def get(self, request, *args, **kwargs):
     return self.retrieve(request, *args, **kwargs)

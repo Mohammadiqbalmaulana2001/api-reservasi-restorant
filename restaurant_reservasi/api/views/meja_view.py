@@ -3,6 +3,7 @@ from api.serializers.meja_serializer import MejaSerializer
 from rest_framework import mixins
 from api.models import Meja
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import permissions
 
 class MejaList(mixins.ListModelMixin,
               mixins.CreateModelMixin,
@@ -10,6 +11,7 @@ class MejaList(mixins.ListModelMixin,
 
     queryset = Meja.objects.all()
     serializer_class = MejaSerializer
+    # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['tersewa']
@@ -31,6 +33,8 @@ class MejaDetail(mixins.RetrieveModelMixin,
 
     queryset = Meja.objects.all()
     serializer_class = MejaSerializer
+
+    # permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)

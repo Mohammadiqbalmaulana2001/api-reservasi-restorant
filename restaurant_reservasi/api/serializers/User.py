@@ -6,6 +6,7 @@ class UserSerializer(serializers.ModelSerializer):
     token = serializers.SerializerMethodField()
     reservasi = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='detail-reservasi')
     ulasan = serializers.HyperlinkedRelatedField(many=True, read_only=True, view_name='ulasan-detail')
+    
     class Meta:
         model = User
         fields = ['id', 'username', 'email', 'password', 'token', 'reservasi', 'ulasan']
@@ -17,7 +18,13 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
     def update(self, instance, validated_data):
-        instance.set_password(validated_data['password'])
+        password = validated_data.pop('password', None)
+        if password:
+            instance.set_password(password)
+
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+
         instance.save()
         return instance
 

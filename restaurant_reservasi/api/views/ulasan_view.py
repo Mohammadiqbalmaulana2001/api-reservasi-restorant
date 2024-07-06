@@ -1,4 +1,4 @@
-from rest_framework import generics
+from rest_framework import generics, permissions
 from rest_framework import mixins
 from api.models import Ulasan
 from api.serializers.ulasan_serializer import UlasanSerializer
@@ -9,6 +9,7 @@ class UlasanList(mixins.ListModelMixin,
 
   queryset = Ulasan.objects.all()
   serializer_class = UlasanSerializer
+  permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
   def get(self, request, *args, **kwargs):
     return self.list(request, *args, **kwargs)
@@ -23,6 +24,7 @@ class UlasanDetail(mixins.RetrieveModelMixin,
 
   queryset = Ulasan.objects.all()
   serializer_class = UlasanSerializer
+  permission_classes = [permissions.IsAuthenticated]
 
   def get(self, request, *args, **kwargs):
     return self.retrieve(request, *args, **kwargs)

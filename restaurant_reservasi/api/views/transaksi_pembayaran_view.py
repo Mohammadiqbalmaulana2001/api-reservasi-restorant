@@ -1,4 +1,4 @@
-from rest_framework import mixins
+from rest_framework import mixins, permissions
 from rest_framework import generics
 from api.models import TransaksiPembayaran
 from api.serializers.transaksi_pembayaran_serializer import TransaksiPembayaranSerializer
@@ -11,6 +11,7 @@ class TransaksiPembayaranList(mixins.ListModelMixin,
 
   queryset = TransaksiPembayaran.objects.all()
   serializer_class = TransaksiPembayaranSerializer
+  permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
   filter_backends = [DjangoFilterBackend, SearchFilter]
   filterset_fields = ['reservasi', 'metode_pembayaran', 'berhasil']
@@ -32,6 +33,7 @@ class TransaksiPembayaranDetail(mixins.RetrieveModelMixin,
 
   queryset = TransaksiPembayaran.objects.all()
   serializer_class = TransaksiPembayaranSerializer
+  permission_classes = [permissions.IsAuthenticated]
 
   def get(self, request, *args, **kwargs):
     return self.retrieve(request, *args, **kwargs)
